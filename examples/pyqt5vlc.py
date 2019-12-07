@@ -20,7 +20,7 @@ class Player(QtWidgets.QMainWindow):
 
     def __init__(self, video_fn, msg, master=None):
         QtWidgets.QMainWindow.__init__(self, master)
-        self.setWindowTitle("Notification")
+        self.setWindowTitle("Notification:" + msg)
 
         # Create a basic vlc instance
         self.instance = vlc.Instance()
@@ -30,11 +30,11 @@ class Player(QtWidgets.QMainWindow):
         # Create an empty vlc media player
         self.mediaplayer = self.instance.media_player_new()
 
-        self.create_ui()
+        self.create_ui(msg)
         self.is_paused = False
         self.open_file(video_fn)
 
-    def create_ui(self):
+    def create_ui(self, msg):
         """Set up the user interface, signals & slots
         """
         self.widget = QtWidgets.QWidget(self)
@@ -57,29 +57,33 @@ class Player(QtWidgets.QMainWindow):
         self.positionslider.sliderMoved.connect(self.set_position)
         self.positionslider.sliderPressed.connect(self.set_position)
 
-        self.hbuttonbox = QtWidgets.QHBoxLayout()
-        self.playbutton = QtWidgets.QPushButton("Play")
-        self.hbuttonbox.addWidget(self.playbutton)
-        self.playbutton.clicked.connect(self.play_pause)
+        self.vlayout = QtWidgets.QVBoxLayout()
+        self.message_text = QtWidgets.QPlainTextEdit(self)
+        self.message_text.insertPlainText(msg)
+        self.message_text.resize(400,100)
+        # self.vlayout.addWidget(self.message_text)
+        self.close_button = QtWidgets.QPushButton("Close")
+        self.vlayout.addWidget(self.close_button)
+        self.close_button.clicked.connect(self.play_pause)
 
-        self.stopbutton = QtWidgets.QPushButton("Stop")
-        self.hbuttonbox.addWidget(self.stopbutton)
-        self.stopbutton.clicked.connect(self.stop)
+        # self.stopbutton = QtWidgets.QPushButton("Stop")
+        # self.vlayout.addWidget(self.stopbutton)
+        # self.stopbutton.clicked.connect(self.stop)
 
-        self.hbuttonbox.addStretch(1)
+        # self.vlayout.addStretch(1)
         self.volumeslider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
         self.volumeslider.setMaximum(100)
         self.volumeslider.setValue(self.mediaplayer.audio_get_volume())
         self.volumeslider.setToolTip("Volume")
-        self.hbuttonbox.addWidget(self.volumeslider)
+        # self.hbuttonbox.addWidget(self.volumeslider)
         self.volumeslider.valueChanged.connect(self.set_volume)
 
-        self.vboxlayout = QtWidgets.QVBoxLayout()
-        self.vboxlayout.addWidget(self.videoframe)
-        self.vboxlayout.addWidget(self.positionslider)
-        self.vboxlayout.addLayout(self.hbuttonbox)
+        # self.vboxlayout = QtWidgets.QVBoxLayout()
+        self.vlayout.addWidget(self.videoframe)
+        # self.vboxlayout.addWidget(self.positionslider)
+        # self.vboxlayout.addLayout(self.hbuttonbox)
 
-        self.widget.setLayout(self.vboxlayout)
+        self.widget.setLayout(self.vlayout)
 
         menu_bar = self.menuBar()
 
@@ -104,7 +108,7 @@ class Player(QtWidgets.QMainWindow):
         """
         if self.mediaplayer.is_playing():
             self.mediaplayer.pause()
-            self.playbutton.setText("Play")
+            self.close_button.setText("Play")
             self.is_paused = True
             self.timer.stop()
         else:
@@ -113,7 +117,7 @@ class Player(QtWidgets.QMainWindow):
                 return
 
             self.mediaplayer.play()
-            self.playbutton.setText("Pause")
+            self.close_button.setText("Pause")
             self.timer.start()
             self.is_paused = False
 
@@ -121,7 +125,7 @@ class Player(QtWidgets.QMainWindow):
         """Stop player
         """
         self.mediaplayer.stop()
-        self.playbutton.setText("Play")
+        self.close_button.setText("Play")
 
     def open_file(self, filename):
         """Open a media file in a MediaPlayer
