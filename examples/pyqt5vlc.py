@@ -5,6 +5,8 @@ Author: Saveliy Yusufov, Columbia University, sy2685@columbia.edu
 Date: 25 December 2018
 """
 
+import click
+
 import platform
 import os
 import sys
@@ -16,9 +18,9 @@ class Player(QtWidgets.QMainWindow):
     """A simple Media Player using VLC and Qt
     """
 
-    def __init__(self, master=None):
+    def __init__(self, video_fn, msg, master=None):
         QtWidgets.QMainWindow.__init__(self, master)
-        self.setWindowTitle("Media Player")
+        self.setWindowTitle("Notification")
 
         # Create a basic vlc instance
         self.instance = vlc.Instance()
@@ -30,6 +32,7 @@ class Player(QtWidgets.QMainWindow):
 
         self.create_ui()
         self.is_paused = False
+        self.open_file(video_fn)
 
     def create_ui(self):
         """Set up the user interface, signals & slots
@@ -120,17 +123,12 @@ class Player(QtWidgets.QMainWindow):
         self.mediaplayer.stop()
         self.playbutton.setText("Play")
 
-    def open_file(self):
+    def open_file(self, filename):
         """Open a media file in a MediaPlayer
         """
 
-        dialog_txt = "Choose Media File"
-        filename = QtWidgets.QFileDialog.getOpenFileName(self, dialog_txt, os.path.expanduser('~'))
-        if not filename:
-            return
-
         # getOpenFileName returns a tuple, so use only the actual file name
-        self.media = self.instance.media_new(filename[0])
+        self.media = self.instance.media_new(filename)
 
         # Put the media in the media player
         self.mediaplayer.set_media(self.media)
@@ -192,11 +190,14 @@ class Player(QtWidgets.QMainWindow):
             if not self.is_paused:
                 self.stop()
 
-def main():
+@click.command()
+@click.option("--video", default="/home/shlomif/Music/mp3s/Jessie J - Domino-UJtB55MaoD0.webm", help="file to play")
+@click.option("--msg", default="Your task has finished - go check it out!", help="notification message")
+def main(video, msg):
     """Entry point for our simple vlc player
     """
     app = QtWidgets.QApplication(sys.argv)
-    player = Player()
+    player = Player(video, msg)
     player.show()
     player.resize(640, 480)
     sys.exit(app.exec_())
