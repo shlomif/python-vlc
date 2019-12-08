@@ -186,7 +186,7 @@ class Player(QtWidgets.QMainWindow):
 
 @click.command()
 @click.option("--video", default="/home/shlomif/Music/mp3s/Jessie J - Domino-UJtB55MaoD0.webm", help="file to play")
-@click.option("--msg", default="Your task has finished - go check it out!", help="notification message")
+@click.option("-m", "--msg", default="Your task has finished - go check it out!", help="notification message")
 def main(video, msg):
     """Entry point for our simple vlc player
     """
