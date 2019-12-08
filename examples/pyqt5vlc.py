@@ -84,6 +84,9 @@ class Player(QtWidgets.QMainWindow):
             self.message_text = QtWidgets.QLineEdit(self)
             self.message_text.setText(msg)
             self.message_text.setReadOnly(True)
+            f = self.message_text.font()
+            f.setPointSize(30)
+            self.message_text.setFont(f)
             # self.message_text.resize(400,100)
             self.vlayout.addWidget(self.message_text)
 
