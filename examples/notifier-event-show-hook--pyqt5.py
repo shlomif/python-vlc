@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 A simple example for VLC python bindings using PyQt5.
 
