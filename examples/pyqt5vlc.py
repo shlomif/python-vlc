@@ -59,9 +59,9 @@ class Player(QtWidgets.QMainWindow):
             self.positionslider.sliderPressed.connect(self.set_position)
 
         self.vlayout = QtWidgets.QVBoxLayout()
-        if False:
-            self.message_text = QtWidgets.QPlainTextEdit(self)
-            self.message_text.insertPlainText(msg)
+        if 1:
+            self.message_text = QtWidgets.QLineEdit(self)
+            self.message_text.setText(msg)
             self.message_text.resize(400,100)
             self.vlayout.addWidget(self.message_text)
         self.close_button = QtWidgets.QPushButton("Close")
