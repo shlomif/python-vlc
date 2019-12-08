@@ -143,8 +143,9 @@ class Player(QtWidgets.QMainWindow):
         # Parse the metadata of the file
         self.media.parse()
 
-        # Set the title of the track as window title
-        self.setWindowTitle(self.media.get_meta(0))
+        if False:
+            # Set the title of the track as window title
+            self.setWindowTitle(self.media.get_meta(0))
 
         # The media player has to be 'connected' to the QFrame (otherwise the
         # video would be displayed in it's own window). This is platform
