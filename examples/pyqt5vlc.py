@@ -95,12 +95,9 @@ class Player(QtWidgets.QMainWindow):
         file_menu = menu_bar.addMenu("&File")
 
         # Add actions to file menu
-        open_action = QtWidgets.QAction("Load Video", self)
         close_action = QtWidgets.QAction("E&xit", self)
-        file_menu.addAction(open_action)
         file_menu.addAction(close_action)
 
-        open_action.triggered.connect(self.open_file)
         close_action.triggered.connect(sys.exit)
 
         self.timer = QtCore.QTimer(self)
