@@ -58,10 +58,11 @@ class Player(QtWidgets.QMainWindow):
         self.positionslider.sliderPressed.connect(self.set_position)
 
         self.vlayout = QtWidgets.QVBoxLayout()
-        self.message_text = QtWidgets.QPlainTextEdit(self)
-        self.message_text.insertPlainText(msg)
-        self.message_text.resize(400,100)
-        # self.vlayout.addWidget(self.message_text)
+        if False:
+            self.message_text = QtWidgets.QPlainTextEdit(self)
+            self.message_text.insertPlainText(msg)
+            self.message_text.resize(400,100)
+            self.vlayout.addWidget(self.message_text)
         self.close_button = QtWidgets.QPushButton("Close")
         self.vlayout.addWidget(self.close_button)
         self.close_button.clicked.connect(self.play_pause)
@@ -71,12 +72,13 @@ class Player(QtWidgets.QMainWindow):
         # self.stopbutton.clicked.connect(self.stop)
 
         # self.vlayout.addStretch(1)
-        self.volumeslider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
-        self.volumeslider.setMaximum(100)
-        self.volumeslider.setValue(self.mediaplayer.audio_get_volume())
-        self.volumeslider.setToolTip("Volume")
-        # self.hbuttonbox.addWidget(self.volumeslider)
-        self.volumeslider.valueChanged.connect(self.set_volume)
+        if False:
+            self.volumeslider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
+            self.volumeslider.setMaximum(100)
+            self.volumeslider.setValue(self.mediaplayer.audio_get_volume())
+            self.volumeslider.setToolTip("Volume")
+            # self.hbuttonbox.addWidget(self.volumeslider)
+            self.volumeslider.valueChanged.connect(self.set_volume)
 
         # self.vboxlayout = QtWidgets.QVBoxLayout()
         self.vlayout.addWidget(self.videoframe)
