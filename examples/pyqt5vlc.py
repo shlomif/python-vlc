@@ -62,7 +62,8 @@ class Player(QtWidgets.QMainWindow):
         if 1:
             self.message_text = QtWidgets.QLineEdit(self)
             self.message_text.setText(msg)
-            self.message_text.resize(400,100)
+            self.message_text.setReadOnly(True)
+            # self.message_text.resize(400,100)
             self.vlayout.addWidget(self.message_text)
         self.close_button = QtWidgets.QPushButton("Close")
         self.vlayout.addWidget(self.close_button)
