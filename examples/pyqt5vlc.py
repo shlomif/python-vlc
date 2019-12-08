@@ -51,11 +51,12 @@ class Player(QtWidgets.QMainWindow):
         self.videoframe.setPalette(self.palette)
         self.videoframe.setAutoFillBackground(True)
 
-        self.positionslider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
-        self.positionslider.setToolTip("Position")
-        self.positionslider.setMaximum(1000)
-        self.positionslider.sliderMoved.connect(self.set_position)
-        self.positionslider.sliderPressed.connect(self.set_position)
+        if False:
+            self.positionslider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
+            self.positionslider.setToolTip("Position")
+            self.positionslider.setMaximum(1000)
+            self.positionslider.sliderMoved.connect(self.set_position)
+            self.positionslider.sliderPressed.connect(self.set_position)
 
         self.vlayout = QtWidgets.QVBoxLayout()
         if False:
@@ -82,7 +83,6 @@ class Player(QtWidgets.QMainWindow):
 
         # self.vboxlayout = QtWidgets.QVBoxLayout()
         self.vlayout.addWidget(self.videoframe)
-        # self.vboxlayout.addWidget(self.positionslider)
         # self.vboxlayout.addLayout(self.hbuttonbox)
 
         self.widget.setLayout(self.vlayout)
@@ -163,20 +163,6 @@ class Player(QtWidgets.QMainWindow):
         """
         self.mediaplayer.audio_set_volume(volume)
 
-    def set_position(self):
-        """Set the movie position according to the position slider.
-        """
-
-        # The vlc MediaPlayer needs a float value between 0 and 1, Qt uses
-        # integer variables, so you need a factor; the higher the factor, the
-        # more precise are the results (1000 should suffice).
-
-        # Set the media position to where the slider was dragged
-        self.timer.stop()
-        pos = self.positionslider.value()
-        self.mediaplayer.set_position(pos / 1000.0)
-        self.timer.start()
-
     def update_ui(self):
         """Updates the user interface"""
 
@@ -184,7 +170,6 @@ class Player(QtWidgets.QMainWindow):
         # Note that the setValue function only takes values of type int,
         # so we must first convert the corresponding media position.
         media_pos = int(self.mediaplayer.get_position() * 1000)
-        self.positionslider.setValue(media_pos)
 
         # No need to call this function if nothing is played
         if not self.mediaplayer.is_playing():
